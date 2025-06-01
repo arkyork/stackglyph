@@ -1,6 +1,6 @@
 @extends('layouts.basic')
 
-@section('title', '正解率ランキング')
+@section('title', '正解率ランキング'. " - 日本人なら…読めるよね？重ね文字クイズ！")
 
 @section('content')
   <h1 class="text-2xl font-bold text-center mb-8">正解率ランキング</h1>

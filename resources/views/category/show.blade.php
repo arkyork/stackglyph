@@ -1,10 +1,10 @@
 @extends('layouts.basic')
 
-@section('title', 'カテゴリ：' . $category->name)
+@section('title', 'カテゴリ：' . $category->name. " - 日本人なら…読めるよね？重ね文字クイズ！")
 
 @section('content')
 
-  <h1 class="text-2xl font-bold text-center">カテゴリ：{{ $category->name }}</h1>
+  <h1 class="text-2xl font-bold text-center">{{ $category->name }}</h1>
 
   <div class="text-center">
     <a href="{{ route('categories.index') }}"

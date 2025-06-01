@@ -1,6 +1,6 @@
 @extends('layouts.basic')
 
-@section('title', $theme->name . ' - 重な文字クイズ')
+@section('title', $theme->name. " - 日本人なら…読めるよね？重ね文字クイズ！")
 
 @section('head')
   @vite('resources/js/quiz.js')

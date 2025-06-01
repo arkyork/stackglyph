@@ -1,6 +1,6 @@
 @extends('layouts.basic')
 
-@section('title', 'カテゴリ一覧')
+@section('title', 'カテゴリ一覧'. " - 日本人なら…読めるよね？重ね文字クイズ！")
 
 @section('content')
 
