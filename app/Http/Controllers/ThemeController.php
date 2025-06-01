@@ -17,12 +17,23 @@ class ThemeController extends Controller
         return view('theme.create', compact('categories'));
     }
     
-    public function index()
+    public function index(Request $request)
     {
-        $themes = Theme::with(['category', 'words.wordStatistics'])->get();
+        $query = Theme::with(['category', 'words.wordStatistics']);
+    
+        if ($request->filled('q')) {
+            $q = $request->input('q');
+            $query->where('name', 'like', "%{$q}%")
+                  ->orWhereHas('category', function ($sub) use ($q) {
+                      $sub->where('name', 'like', "%{$q}%");
+                  });
+        }
+    
+        $themes = $query->get();
     
         return view('theme.index', compact('themes'));
     }
+    
     public function ranking()
     {
         $words = WordStatistics::with('word')
