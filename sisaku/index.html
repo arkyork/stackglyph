@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>重ね文字あてゲーム＋高速フラッシュカード</title>
+  <style>
+    body { font-family: sans-serif; }
+    #mysvg { background: #fff; display: block; margin-bottom: 1em; }
+    #result { margin-top: 1em; font-weight: bold; }
+    .modal-bg {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0; top: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.3);
+      align-items: center;
+      justify-content: center;
+    }
+    .modal {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+      padding: 2em 3em;
+      text-align: center;
+      min-width: 2em;
+      min-height: 2em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'serif';
+      font-size: 2.5em;
+      letter-spacing: 0.2em;
+      position: relative;
+      animation: modalPop 0.3s;
+      user-select: none;
+    }
+    @keyframes modalPop {
+      0% { transform: scale(0.7); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <svg id="mysvg" width="500" height="150"></svg>
+  <button id="remove-btn">一文字消す</button>
+  <button id="hint-btn">ヒント（フラッシュカード）</button>
+  <div style="margin-top:1em;">
+    <input id="answer" type="text" placeholder="ここに単語を入力" style="font-size:1.2em;">
+    <button id="check-btn">答え合わせ</button>
+  </div>
+  <div id="result"></div>
+
+  <!-- フラッシュカード用モーダル -->
+  <div id="modal-bg" class="modal-bg">
+    <div id="modal" class="modal"></div>
+  </div>
+  <script>
+    const answerText = "従量課金";
+    const svg = document.getElementById("mysvg");
+    const textElements = [];
+
+    // SVGに一文字ずつ重ねて追加
+    for (let i = 0; i < answerText.length; i++) {
+      const t = document.createElementNS("http://www.w3.org/2000/svg", "text");
+      t.setAttribute("x", 50);
+      t.setAttribute("y", 110);
+      t.setAttribute("font-size", 100);
+      t.setAttribute("font-family", "serif");
+      t.textContent = answerText[i];
+      svg.appendChild(t);
+      textElements.push(t);
+    }
+
+    // 一文字ずつ消す
+    document.getElementById("remove-btn").addEventListener("click", () => {
+      if (textElements.length > 0) {
+        const last = textElements.shift();
+        document.getElementById("answer").value += last.textContent;
+        svg.removeChild(last);
+      }
+    });
+
+    // 答え合わせ
+    document.getElementById("check-btn").addEventListener("click", () => {
+      const userAnswer = document.getElementById("answer").value;
+      const result = document.getElementById("result");
+      if (userAnswer === answerText) {
+        result.textContent = "正解！🎉";
+        result.style.color = "green";
+      } else {
+        result.textContent = "不正解…";
+        result.style.color = "red";
+      }
+    });
+
+    // フラッシュカードアニメ（カウントダウン→高速重ね文字表示）
+    document.getElementById("hint-btn").addEventListener("click", () => {
+      showFlashCard(answerText);
+    });
+
+    function showFlashCard(text) {
+      const modalBg = document.getElementById("modal-bg");
+      const modal = document.getElementById("modal");
+      modal.innerHTML = "";
+      modalBg.style.display = "flex";
+
+      // カウントダウン演出（3, 2, 1）
+      let count = 3;
+      modal.textContent = count;
+      let countdown = setInterval(() => {
+        count--;
+        if (count > 0) {
+          modal.textContent = count;
+        } else {
+          clearInterval(countdown);
+          // ほんの少し間を置いてから重ね文字アニメーション
+          setTimeout(() => {
+            // 全ての<text>を同じ位置で重ねる（SVGと同じ）
+            modal.innerHTML = "";
+            const svgNS = "http://www.w3.org/2000/svg";
+            // SVGエレメント作成
+            let tempSvg = document.createElementNS(svgNS, "svg");
+            tempSvg.setAttribute("width", "200");
+            tempSvg.setAttribute("height", "120");
+            tempSvg.setAttribute("viewBox", "0 0 200 120");
+            tempSvg.style.display = "block";
+            modal.appendChild(tempSvg);
+
+            let idx = 0;
+            let interval = setInterval(() => {
+              if (idx < text.length) {
+                // 重ねて同じ位置に追加
+                const t = document.createElementNS(svgNS, "text");
+                t.setAttribute("x", 50);
+                t.setAttribute("y", 90);
+                t.setAttribute("font-size", 80);
+                t.setAttribute("font-family", "serif");
+                t.textContent = text[idx];
+                tempSvg.appendChild(t);
+                idx++;
+              } else {
+                clearInterval(interval);
+                // 0.8秒後に自動で消える
+                setTimeout(() => {
+                  modalBg.style.display = "none";
+                }, 800);
+              }
+            }, 70); // 高速（0.07秒ごとに1文字ずつ）
+          }, 300);
+        }
+      }, 600); // 0.6秒ごとにカウントダウン
+    }
+
+    // モーダルの外側クリックで即閉じる
+    document.getElementById("modal-bg").addEventListener("click", function(e) {
+      if (e.target === this) {
+        this.style.display = "none";
+      }
+    });
+  </script>
+</body>
+</html>
