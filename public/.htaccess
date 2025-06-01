@@ -1,3 +1,44 @@
+
+# ----------------------------------------
+# 環境変数の設定（XMLRPC/REST APIの許可）
+SetEnvIf Request_URI ".*" AllowXmlrpc
+SetEnvIf Request_URI ".*" AllowRestApi
+
+### BEGIN XPageSpeed - Do not edit the contents of this block! ###
+XPagespeed on
+<IfFile /var/xpagespeed/xpagespeed_ctl>
+XPagespeed off
+</IfFile>
+### END XPageSpeed - Do not edit the contents of this block! ###
+SetEnvIf Request_URI ".*" Ngx_Cache_NoCacheMode=off
+SetEnvIf Request_URI ".*" Ngx_Cache_AllCacheMode
+
+# ----------------------------------------
+# セキュリティヘッダーの設定
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header always append X-Frame-Options "SAMEORIGIN"
+</IfModule>
+# ----------------------------------------
+# Facebookクローラーのアクセス制限
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{HTTP_USER_AGENT} ^facebookexternalhit/1\.1 [NC]
+    RewriteRule ^ - [F,L]
+</IfModule>
+# ----------------------------------------
+# HTTP→HTTPSとwww統一リダイレクト
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    # HTTP→HTTPS
+    RewriteCond %{HTTPS} off
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+    # wwwに統一（www.が付いていない場合）
+    RewriteCond %{HTTP_HOST} !^www\. [NC]
+    RewriteRule ^(.*)$ https://www.%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+</IfModule>
+
+
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes
