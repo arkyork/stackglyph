@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>テーマ一覧</title>
+    <title>一覧</title>
     <style>
         table { border-collapse: collapse; width: 100%; margin-top: 1em; }
         th, td { border: 1px solid #ccc; padding: 0.5em; text-align: left; }
@@ -10,7 +10,7 @@
     </style>
 </head>
 <body>
-    <h1>テーマ一覧</h1>
+    <h1>一覧</h1>
 
     @foreach($themes as $theme)
         <h2><a href="{{ route('themes.edit', $theme->id) }}">{{ $theme->name }}</a>（{{ $theme->category->name }}） @if($theme->is_public)🌐@else🔒@endif</h2>

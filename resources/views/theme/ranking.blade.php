@@ -1,28 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-<h1>正解率ランキング</h1>
-<table border="1" cellpadding="5">
-  <tr>
-    <th>単語</th>
-    <th>正解率</th>
-    <th>出題数</th>
-    <th>正解数</th>
-  </tr>
-  @foreach ($words as $stat)
-    <tr>
-      <td>{{ $stat->word->text }}</td>
-      <td>{{ $stat->correct_rate !== null ? $stat->correct_rate . '%' : '－' }}</td>
-      <td>{{ $stat->play_count }}</td>
-      <td>{{ $stat->correct_count }}</td>
-    </tr>
-  @endforeach
-</table>
+@extends('layouts.basic')
 
-</body>
-</html>
+@section('title', '正解率ランキング')
+
+@section('content')
+  <h1 class="text-2xl font-bold text-center mb-8">正解率ランキング</h1>
+
+  <div class="overflow-x-auto bg-white rounded-lg shadow">
+    <table class="min-w-full divide-y divide-gray-200 text-sm text-center">
+      <thead class="bg-slate-100">
+        <tr>
+          <th class="px-4 py-3 font-semibold text-gray-700">単語</th>
+          <th class="px-4 py-3 font-semibold text-gray-700">正解率</th>
+          <th class="px-4 py-3 font-semibold text-gray-700">出題数</th>
+          <th class="px-4 py-3 font-semibold text-gray-700">正解数</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-100">
+        @foreach ($words as $stat)
+          <tr class="hover:bg-slate-50">
+            <td class="px-4 py-2"><a href="{{route('words.show', $stat->word->id)}}">{{ $stat->word->text }}</a></td>
+            <td class="px-4 py-2">
+              {{ $stat->correct_rate !== null ? $stat->correct_rate . '%' : '－' }}
+            </td>
+            <td class="px-4 py-2">{{ $stat->play_count }}</td>
+            <td class="px-4 py-2">{{ $stat->correct_count }}</td>
+          </tr>
+        @endforeach
+      </tbody>
+    </table>
+  </div>
+@endsection

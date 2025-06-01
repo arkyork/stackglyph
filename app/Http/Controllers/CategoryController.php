@@ -16,7 +16,12 @@ class CategoryController extends Controller
 
     public function show(Category $category)
     {
-        $themes = $category->themes()->withCount('words')->get();
+        if(auth()){
+            $themes = $category->themes()->withCount('words')->get();
+
+        }else{
+            $themes = $category->themes()->where('is_public', true)->withCount('words')->get();
+        }
         return view('category.show', compact('category', 'themes'));
     }
 }

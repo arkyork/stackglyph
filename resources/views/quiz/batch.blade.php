@@ -1,64 +1,58 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <title>{{ $theme->name }}｜まとめてクイズ</title>
-  <style>
-    #mysvg { background: #fff; display: block; margin-bottom: 1em; }
-    .hidden { display: none; }
-  </style>
+@extends('layouts.basic')
+
+@section('title', $theme->name . ' - 重な文字クイズ')
+
+@section('head')
   @vite('resources/js/quiz.js')
-</head>
-<body>
+@endsection
 
-<body>
-  <h1>テーマ「{{ $theme->name }}」のクイズ</h1>
-  <div id="progress-container" style="background: #eee; width: 100%; height: 1.5em; margin-bottom: 1em;">
-    <div id="progress-bar" style="background: green; width: 0%; height: 100%; color: white; text-align: center; font-size: 0.9em;"></div>
+@section('content')
+<main class="max-w-3xl mx-auto px-4 py-8 space-y-6">
+  <a href="{{route('categories.show',$theme->category->id)}}" class="px-3 py-2 bg-slate-200 rounded-md">
+    {{$theme->category->name}}
+  </a>
+  <h1 class="text-2xl font-bold text-center">「{{ $theme->name }}」の重ね文字</h1>
+
+  <!-- プログレスバー -->
+  <div class="w-full h-6 bg-gray-300 rounded overflow-hidden">
+    <div id="progress-bar" class="h-full bg-green-500 text-white text-sm text-center" style="width: 0%"></div>
   </div>
 
-  <div id="quiz-area">
-    <p id="counter"></p>
-    <svg id="mysvg" width="500" height="150"></svg>
+  <!-- クイズエリア -->
+  <div id="quiz-area" class="space-y-4">
+    <p id="counter" class="text-center text-sm text-gray-600"></p>
 
-    <div>
-      <button id="remove-btn">一文字消す</button>
-      <button id="hint-btn">フラッシュカード</button>
+    <div id="mysvg-container" class="mb-4 flex justify-center"></div>
+
+    <div class="flex justify-center gap-4">
+      <button id="remove-btn" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition">一文字消す</button>
+      <button id="hint-btn" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">フラッシュカード</button>
     </div>
 
-    <div>
-      <input id="answer" type="text">
-      <button id="check-btn">答え合わせ</button>
+    <div class="flex justify-center gap-2 items-center">
+      <input id="answer" type="text" class="border rounded px-3 py-2 w-1/2" placeholder="答えを入力">
+      <button id="check-btn" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">答え合わせ</button>
     </div>
 
-    <div id="result"></div>
-    <button id="next-btn" class="hidden">次の問題へ</button>
+    <div id="result" class="text-center text-lg font-semibold text-purple-600"></div>
+
+    <div class="text-center">
+      <button id="next-btn" class="hidden mt-4 bg-gray-700 text-white px-5 py-2 rounded hover:bg-gray-800 transition">次の問題へ</button>
+    </div>
   </div>
-  <div id="modal-bg" class="modal-bg" style="display: none;
-  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.4); align-items: center; justify-content: center; z-index: 999;">
-    <div id="modal" style="
-        background: #fff;
-        padding: 1em 2em;
-        border-radius: 16px;
-        box-shadow: 0 4px 16px rgba(0,0,0,0.3);
-        font-size: 2em;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-width: 200px;
-        min-height: 100px;
-    "></div>
-    </div>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const words = @json($words);
-        const csrfToken = '{{ csrf_token() }}';
-        setupQuiz(words, csrfToken);
-    });
-  </script>
-</body>
 
+  <!-- モーダル -->
+  <div id="modal-bg" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div id="modal" class="bg-white p-8 rounded-2xl shadow-xl text-4xl min-w-[200px] min-h-[100px] flex items-center justify-center"></div>
+  </div>
 
-</body>
-</html>
+</main>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+      const words = @json($words);
+      const csrfToken = '{{ csrf_token() }}';
+      setupQuiz(words, csrfToken);
+  });
+</script>
+@endsection

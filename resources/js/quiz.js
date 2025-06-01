@@ -1,14 +1,19 @@
 window.setupQuiz = function(words, csrfToken) {
-    const svg = document.getElementById("mysvg");
     const answerInput = document.getElementById("answer");
     const resultDiv = document.getElementById("result");
     const nextBtn = document.getElementById("next-btn");
     const progress = document.getElementById("progress-bar");
     const counter = document.getElementById("counter");
+    const ans = JSON.parse(JSON.stringify(words));
+
+    let hintCount       = 0;   // 1文字消した回数
+    let flashcardCount  = 0;   // フラッシュカード使用回数
+    let correctCount    = 0;   // 正解数
+    let answerCount     = 0;   // 答え合わせボタンを押した回数
 
     let currentIndex = 0;
     let textElements = [];
-
+    let results = [];
     function renderProgress() {
         const percent = Math.round((currentIndex / words.length) * 100);
         progress.style.width = percent + "%";
@@ -16,50 +21,88 @@ window.setupQuiz = function(words, csrfToken) {
     }
 
     function renderCurrentWord() {
-        svg.innerHTML = '';
-        answerInput.value = '';
-        resultDiv.textContent = '';
-        nextBtn.classList.add('hidden');
-
-        counter.textContent = `問題 ${currentIndex + 1} / ${words.length}`;
-        renderProgress();
-
+        const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+        svg.setAttribute("width", "400");
+        svg.setAttribute("height", "400");
+    
         const word = words[currentIndex].text;
         textElements = [];
-
+    
         for (let i = 0; i < word.length; i++) {
             const t = document.createElementNS("http://www.w3.org/2000/svg", "text");
-            t.setAttribute("x", 50);
-            t.setAttribute("y", 110);
-            t.setAttribute("font-size", 100);
+            t.setAttribute("x", "50%");
+            t.setAttribute("y", "50%");
+            t.setAttribute("text-anchor", "middle");
+            t.setAttribute("dominant-baseline", "middle");
+            t.setAttribute("font-size", "250"); // 大きめのサイズ
             t.textContent = word[i];
             svg.appendChild(t);
             textElements.push(t);
         }
+    
+        // SVG → DataURL変換
+        const svgString = new XMLSerializer().serializeToString(svg);
+        const encoded = encodeURIComponent(svgString);
+        const dataUrl = `data:image/svg+xml;charset=utf-8,${encoded}`;
+    
+        // <img> に差し替え
+        const img = document.createElement("img");
+        img.setAttribute("src", dataUrl);
+        img.setAttribute("alt", "quiz image");
+        img.className = "mx-auto mb-4";
+    
+        const container = document.getElementById("mysvg-container");
+        container.innerHTML = ''; // 前の画像を消す
+        container.appendChild(img);
+    
+        resultDiv.textContent = '';
+        nextBtn.classList.add('hidden');
+        counter.textContent = `問題 ${currentIndex + 1} / ${words.length}`;
+        renderProgress();
     }
+    
+
+    
 
     document.getElementById("remove-btn").addEventListener("click", () => {
         if (textElements.length > 0) {
-            const last = textElements.shift();
-            answerInput.value += last.textContent;
-            svg.removeChild(last);
+            const removed = textElements.shift();
+    
+            // 残りの文字で再描画
+            const remainingText = textElements.map(t => t.textContent).join('');
+            words[currentIndex].text = remainingText;
+            renderCurrentWord();
+            answerInput.value += removed.textContent;
+            hintCount++;
             postStat({ hint: true });
         }
     });
-
+    
     document.getElementById("hint-btn").addEventListener("click", () => {
         showFlashCard(words[currentIndex].text);
+        flashcardCount++;
         postStat({ flashcard: true });
     });
     
 
     document.getElementById("check-btn").addEventListener("click", () => {
-        const correctText = words[currentIndex].text;
+        const correctText = ans[currentIndex].text;
         const userAnswer = answerInput.value.trim();
         const correct = userAnswer === correctText;
-
+    
         resultDiv.textContent = correct ? "正解！🎉" : "不正解…";
         resultDiv.style.color = correct ? 'green' : 'red';
+        
+        answerCount++;
+        if (correct) correctCount++;
+    
+        results.push({
+            text: correctText,
+            user: userAnswer,
+            correct: correct
+        });
+    
         postStat({ play: true, correct });
         nextBtn.classList.remove('hidden');
     });
@@ -68,12 +111,64 @@ window.setupQuiz = function(words, csrfToken) {
         currentIndex++;
         if (currentIndex < words.length) {
             renderCurrentWord();
+            answerInput.value = "";
         } else {
-            document.getElementById("quiz-area").innerHTML = `
-                <h2>すべて終了！</h2>
-                <p>お疲れさまでした！</p>
-                <a href="/themes">← テーマ一覧へ戻る</a>
+            renderProgress();
+    
+            const percent = Math.round((correctCount / answerCount) * 100);
+    
+            let resultHtml = `
+                <h2 class="text-xl font-bold text-center mb-6">結果発表</h2>
+                <div class="space-y-2 text-lg">
+                    <p>正解数：<span class="font-semibold">${correctCount}</span> / ${answerCount}（正解率 ${percent}%）</p>
+                    <p>ヒント使用：<span class="font-semibold">${hintCount}</span> 回</p>
+                    <p>フラッシュカード使用：<span class="font-semibold">${flashcardCount}</span> 回</p>
+                </div>
+    
+                <h3 class="mt-6 text-lg font-semibold">出題内容と結果</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
             `;
+    
+            results.forEach(r => {
+                // SVG生成
+                const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+                svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+                svg.setAttribute("width", "200");
+                svg.setAttribute("height", "100");
+                svg.setAttribute("viewBox", "0 0 200 100");
+    
+                for (let i = 0; i < r.text.length; i++) {
+                    const t = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                    t.setAttribute("x", "100");
+                    t.setAttribute("y", "60");
+                    t.setAttribute("text-anchor", "middle");
+                    t.setAttribute("font-size", "60");
+                    t.setAttribute("font-family", "serif");
+                    t.textContent = r.text[i];
+                    svg.appendChild(t);
+                }
+    
+                const svgStr = new XMLSerializer().serializeToString(svg);
+                const encoded = encodeURIComponent(svgStr);
+                const imgSrc = `data:image/svg+xml;charset=utf-8,${encoded}`;
+                const mark = r.correct ? '◯' : '×';
+                const color = r.correct ? 'text-green-600' : 'text-red-600';
+    
+                resultHtml += `
+                    <div class="border p-4 rounded shadow">
+                        <img src="${imgSrc}" alt="重ね文字" class="mx-auto mb-2" />
+                        <p class="${color} font-bold">${mark} あなたの答え：${r.user}</p>
+                        <p class="text-sm text-gray-500">正解：${r.text}</p>
+                    </div>
+                `;
+            });
+    
+            resultHtml += `</div>
+                <div class="mt-8 text-center">
+                    <a href="/" class="text-blue-600 underline">← ホームへ戻る</a>
+                </div>`;
+    
+            document.getElementById("quiz-area").innerHTML = resultHtml;
         }
     });
 
@@ -146,14 +241,3 @@ function showFlashCard(text) {
       }
     }, 600); // 0.6秒ごとにカウントダウン
   }
-// モーダルの背景クリックで閉じる
-document.addEventListener("DOMContentLoaded", () => {
-    const bg = document.getElementById("modal-bg");
-    if (bg) {
-        bg.addEventListener("click", function (e) {
-            if (e.target === this) {
-                this.style.display = "none";
-            }
-        });
-    }
-});

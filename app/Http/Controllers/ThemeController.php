@@ -13,8 +13,10 @@ class ThemeController extends Controller
 {
     public function create()
     {
-        return view('theme.create');
+        $categories = Category::all();
+        return view('theme.create', compact('categories'));
     }
+    
     public function index()
     {
         $themes = Theme::with(['category', 'words.wordStatistics'])->get();
@@ -76,37 +78,28 @@ class ThemeController extends Controller
     {
 
 
-        // カテゴリがあれば取得、なければ作成
+
+
+        // カテゴリがなければ作成
         $category = Category::firstOrCreate(['name' => $request->category_name]);
 
         // テーマ作成
+        $theme = Theme::create([
+            'name' => $request->theme_name,
+            'is_public' => $request->has('is_public'),
+            'category_id' => $category->id,
+        ]);
+        if ($request->filled('word_list')) {
+            $words = preg_split('/\r\n|\r|\n/', $request->word_list);
+            foreach ($words as $wordText) {
+                $wordText = trim($wordText);
+                if ($wordText === '') continue;
 
-        DB::transaction(function () use ($request) {
-            // カテゴリがなければ作成
-            $category = Category::firstOrCreate(['name' => $request->category_name]);
-    
-            // テーマ作成
-            $theme = Theme::create([
-                'name' => $request->theme_name,
-                'is_public' => $request->has('is_public'),
-                'category_id' => $category->id,
-            ]);
-            
-    
-            // 単語が入力されていれば登録
-            if ($request->filled('word_list')) {
-                $words = preg_split('/\r\n|\r|\n/', $request->word_list);
-                foreach ($words as $wordText) {
-                    $wordText = trim($wordText);
-                    if ($wordText === '') continue;
-    
-                    $word = Word::firstOrCreate(['text' => $wordText]);
-                    $theme->words()->attach($word->id); // 多対多
-                }
+                $word = Word::firstOrCreate(['text' => $wordText]);
+                $theme->words()->attach($word->id); // 多対多
             }
-        });
-
-        return redirect()->back()->with('success', 'テーマとカテゴリを登録しました');
+        }
+        return redirect()->route('themes.edit', $theme->id)->with('success', 'テーマとカテゴリを登録しました');
     }
     public function detachWord(Theme $theme, Word $word)
     {

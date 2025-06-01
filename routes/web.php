@@ -7,8 +7,11 @@ use App\Http\Controllers\Api\WordStatisticsController;
 use App\Http\Controllers\CategoryController;
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\WordController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+Route::get('/words/{word}', [WordController::class, 'show'])->name('words.show');
 
 
 Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
