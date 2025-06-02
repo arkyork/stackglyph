@@ -88,8 +88,16 @@ class ThemeController extends Controller
     public function store(Request $request)
     {
 
-        // カテゴリがなければ作成
-        $category = Category::firstOrCreate(['name' => $request->category_name]);
+        // カテゴリの処理
+        if ($request->filled('category_name')) {
+            // 新規カテゴリ名がある場合はそちらを優先
+            $category = Category::firstOrCreate(['name' => $request->category_name]);
+        } elseif ($request->filled('category_id')) {
+            // 選択されたカテゴリを使う
+            $category = Category::find($request->category_id);
+        } else {
+            return back()->withErrors(['category_id' => 'カテゴリを選択するか、新規作成してください']);
+        }
 
         // テーマ作成
         $theme = Theme::create([
