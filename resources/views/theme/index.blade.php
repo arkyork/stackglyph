@@ -14,7 +14,10 @@
         </button>
     </div>
   </form>
-  <h1 class="text-2xl font-bold text-center">テーマ別 単語統計 一覧</h1>
+  <div class="flex justify-center">
+    <a href="{{route('themes.create')}}" class="bg-slate-500 hover:bg-slate-700 px-4 py-2 text-white rounded">新規作成</a>
+  </div>
+  <h1 class="text-2xl font-bold text-center">テーマ別</h1>
   <section class="space-y-1">
 
   @foreach($themes as $theme)

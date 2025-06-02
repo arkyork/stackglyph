@@ -4,6 +4,13 @@
 
 @section('head')
   @vite('resources/js/quiz.js')
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const words = @json($words);
+        const csrfToken = '{{ csrf_token() }}';
+        setupQuiz(words, csrfToken);
+    });
+  </script>
 @endsection
 
 @section('content')
@@ -48,11 +55,5 @@
 
 </main>
 
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-      const words = @json($words);
-      const csrfToken = '{{ csrf_token() }}';
-      setupQuiz(words, csrfToken);
-  });
-</script>
+
 @endsection

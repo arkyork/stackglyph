@@ -19,7 +19,7 @@ class QuizController extends Controller
     }
     public function show(Theme $theme)
     {
-        $words = $theme->words()->with('wordStatistics')->get();
+        $words = $theme->words()->inRandomOrder()->with('wordStatistics')->limit(10)->get();
     
         if ($words->isEmpty()) {
             abort(404);
