@@ -80,7 +80,7 @@ SVG;
   </section>
 
   <div class="text-center mt-6">
-    <a href="{{ route('themes.index') }}" class="text-blue-600 hover:underline">← テーマ一覧に戻る</a>
+    <a href="/" class="text-blue-600 hover:underline">← ホームに戻る</a>
   </div>
 
 </main>
