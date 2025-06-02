@@ -88,9 +88,6 @@ class ThemeController extends Controller
     public function store(Request $request)
     {
 
-
-
-
         // カテゴリがなければ作成
         $category = Category::firstOrCreate(['name' => $request->category_name]);
 

@@ -8,6 +8,7 @@ use App\Http\Controllers\CategoryController;
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\WordController;
+use App\Http\Controllers\SitemapController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -22,6 +23,12 @@ Route::get('/words/{word}', [WordController::class, 'show'])->name('words.show')
 
 Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
 Route::get('/categories/{category}', [CategoryController::class, 'show'])->name('categories.show');
+
+
+Route::get('/sitemap.xml', [SitemapController::class, 'sitemap'])->name('sitemap.sitemap');
+Route::get('/sitemap/words.xml', [SitemapController::class, 'wordSitemap'])->name('sitemap.word');
+Route::get('/sitemap/quiz.xml', [SitemapController::class, 'quizSitemap'])->name('sitemap.quiz');
+
 
 
 Route::middleware([
