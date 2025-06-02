@@ -11,6 +11,7 @@
         setupQuiz(words, csrfToken);
     });
   </script>
+  <meta name="description" content="『{{$theme->name}}』の重ね文字クイズ。日本人なら…読めるかも？">
 @endsection
 
 @section('content')
