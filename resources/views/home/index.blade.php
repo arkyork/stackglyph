@@ -1,6 +1,9 @@
 @extends("layouts.basic")
 
 @section("title", "日本人なら…読めるよね？重ね文字クイズ！")
+@section("head")
+  <meta name="description" content="日本人なら…読めるかも？重ね文字クイズ。">
+@endsection
 
 @section("content")
 
