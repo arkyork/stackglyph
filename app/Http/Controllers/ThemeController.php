@@ -19,6 +19,8 @@ class ThemeController extends Controller
     
     public function index(Request $request)
     {
+        $categories = Category::all();
+
         $query = Theme::with(['category', 'words.wordStatistics']);
     
         if ($request->filled('q')) {
@@ -31,23 +33,10 @@ class ThemeController extends Controller
     
         $themes = $query->get();
     
-        return view('theme.index', compact('themes'));
+        return view('theme.index', compact('themes','categories'));
     }
     
-    public function ranking()
-    {
-        $words = WordStatistics::with('word')
-            ->get()
-            ->map(function ($stat) {
-                $stat->correct_rate = $stat->play_count > 0
-                    ? round($stat->correct_count / $stat->play_count * 100, 1)
-                    : null;
-                return $stat;
-            })
-            ->sortByDesc('correct_rate');
 
-        return view('theme.ranking', compact('words'));
-    }
     public function edit(Theme $theme)
     {
         $categories = Category::all();

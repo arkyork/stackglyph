@@ -9,6 +9,8 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\WordController;
 use App\Http\Controllers\SitemapController;
+use App\Http\Controllers\RankingController;
+
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -16,7 +18,6 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/quiz/{theme}', [QuizController::class, 'show'])->name('quiz.show');
 Route::post('/api/word-statistics/update', [WordStatisticsController::class, 'update'])->name('api.word-statistics.update');
 
-Route::get('/ranking', [ThemeController::class, 'ranking'])->name('ranking');
 
 Route::get('/words/{word}', [WordController::class, 'show'])->name('words.show');
 
@@ -28,6 +29,17 @@ Route::get('/categories/{category}', [CategoryController::class, 'show'])->name(
 Route::get('/sitemap.xml', [SitemapController::class, 'sitemap'])->name('sitemap.sitemap');
 Route::get('/sitemap/words.xml', [SitemapController::class, 'wordSitemap'])->name('sitemap.word');
 Route::get('/sitemap/quiz.xml', [SitemapController::class, 'quizSitemap'])->name('sitemap.quiz');
+
+
+// ランキング
+
+
+Route::get('/ranking', [RankingController::class, 'ranking'])->name('ranking');
+
+Route::get('/ranking/play_count', [RankingController::class, 'playCount'])->name('ranking.play_count');
+Route::get('/ranking/correct_count', [RankingController::class, 'correctCount'])->name('ranking.correct_count');
+Route::get('/ranking/hint_count', [RankingController::class, 'hintCount'])->name('ranking.hint_count');
+Route::get('/ranking/flashcard_count', [RankingController::class, 'flashcardCount'])->name('ranking.flashcard_count');
 
 
 
