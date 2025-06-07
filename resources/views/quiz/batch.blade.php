@@ -16,7 +16,7 @@
 
 @section('content')
 <main class="max-w-3xl mx-auto px-4 py-8 space-y-6">
-  <a href="{{route('categories.show',$theme->category->id)}}" class="px-3 py-2 bg-slate-200 rounded-md">
+  <a href="{{route('categories.show',$theme->category->id)}}" class="px-3 py-2 bg-slate-200 hover:bg-slate-500 hover:text-white rounded-md">
     {{$theme->category->name}}
   </a>
   <h1 class="text-2xl font-bold text-center">「{{ $theme->name }}」の重ね文字</h1>

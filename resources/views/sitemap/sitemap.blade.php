@@ -4,7 +4,12 @@
         <loc>{{ route("sitemap.quiz") }}</loc>
     </sitemap>
     <sitemap>
-        <loc>{{ route("sitemap.word") }}</loc>
+        <loc>{{ route('sitemap.word') }}</loc>
     </sitemap>
+    @for ($i = 2; $i <= $pages; $i++)
+        <sitemap>
+            <loc>{{ route('sitemap.word.page', ['page' => $i]) }}</loc>
+        </sitemap>
+    @endfor
 
 </sitemapindex>

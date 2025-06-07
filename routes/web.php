@@ -27,7 +27,12 @@ Route::get('/categories/{category}', [CategoryController::class, 'show'])->name(
 
 
 Route::get('/sitemap.xml', [SitemapController::class, 'sitemap'])->name('sitemap.sitemap');
+
+
 Route::get('/sitemap/words.xml', [SitemapController::class, 'wordSitemap'])->name('sitemap.word');
+Route::get('/sitemap/words-{page}.xml', [SitemapController::class, 'wordSitemapPage'])->name('sitemap.word.page');
+
+
 Route::get('/sitemap/quiz.xml', [SitemapController::class, 'quizSitemap'])->name('sitemap.quiz');
 
 
