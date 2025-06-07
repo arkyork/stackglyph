@@ -24,7 +24,7 @@ SVG;
   <h1 class="text-2xl font-bold text-center">単語詳細：{{ $text }}</h1>
 
   <div class="flex justify-center">
-    <img src="{{ $base64Svg }}" alt="{{ $theme->name }}の重ね文字" class="border rounded shadow" />
+    <img src="{{ $base64Svg }}" alt="{{ $text }}の重ね文字" class="border rounded shadow" />
   </div>
 
   @if($word->wordStatistics)
