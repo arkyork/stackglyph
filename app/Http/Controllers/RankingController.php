@@ -43,7 +43,7 @@ class RankingController extends Controller
             ->get()
             ->sortByDesc(fn($word) => $word->wordStatistics->play_count)
             ->take(50);
-        return view('ranking.index', compact('words','categories','title'));
+        return view('ranking.play_count', compact('words','categories','title'));
     }
 
     public function correctCount()
@@ -59,7 +59,7 @@ class RankingController extends Controller
             ->sortByDesc(fn($word) => $word->wordStatistics->correct_count)
             ->take(50);
 
-        return view('ranking.index', compact('words','categories','title'));
+        return view('ranking.correct_count', compact('words','categories','title'));
     }
 
     public function hintCount()
@@ -74,7 +74,7 @@ class RankingController extends Controller
             ->sortByDesc(fn($word) => $word->wordStatistics->hint_count)
             ->take(50);
 
-        return view('ranking.index', compact('words','categories','title'));
+        return view('ranking.hint_count', compact('words','categories','title'));
     }
 
     public function flashcardCount()
@@ -88,7 +88,7 @@ class RankingController extends Controller
             ->sortByDesc(fn($word) => $word->wordStatistics->flashcard_count)
             ->take(50);
 
-        return view('ranking.index', compact('words','categories','title'));
+        return view('ranking.flash_card', compact('words','categories','title'));
     }
 
 }

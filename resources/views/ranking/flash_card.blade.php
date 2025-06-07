@@ -19,19 +19,32 @@
     <tr>
       <th class="px-4 py-2">順位</th>
       <th class="px-4 py-2">単語</th>
-      <th class="px-4 py-2">出題回数</th>
+      <th class="px-4 py-2">フラッシュカード利用回数</th>
     </tr>
   </thead>
   <tbody>
-    @foreach($words as $index => $word)
-      <tr class="border-t">
-        <td class="px-4 py-2">{{ $index + 1 }}</td>
-        <td class="px-4 py-2">
-          <a href="{{ route('words.show', $word->id) }}" class="text-blue-600 hover:underline">{{ $word->text }}</a>
-        </td>
-        <td class="px-4 py-2">{{ $word->wordStatistics->play_count }}</td>
-      </tr>
-    @endforeach
+  @php
+    $rank = 0;
+    $prevCount = null;
+    $displayRank = 0;
+  @endphp
+
+  @foreach($words as $index => $word)
+    @php
+      $rank++;
+      if ($word->wordStatistics->play_count !== $prevCount) {
+          $displayRank = $rank;
+          $prevCount = $word->wordStatistics->flashcard_count;
+      }
+    @endphp
+    <tr class="border-t">
+      <td class="px-4 py-2">{{ $displayRank }}</td>
+      <td class="px-4 py-2">
+        <a href="{{ route('words.show', $word->id) }}" class="text-blue-600 hover:underline">{{ $word->text }}</a>
+      </td>
+      <td class="px-4 py-2">{{ $word->wordStatistics->flashcard_count }}</td>
+    </tr>
+  @endforeach
   </tbody>
 </table>
 
