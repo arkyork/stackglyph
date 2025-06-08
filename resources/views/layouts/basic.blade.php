@@ -9,6 +9,19 @@
         <meta name="google-site-verification" content="CM0xkCc0cnHiLI9MMTAxSBH83Hk-DPcnfnRY6AahGrw" />
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         @yield("head")
+        
+        @auth
+        @else
+            <!-- Google tag (gtag.js) -->
+            <script async src="https://www.googletagmanager.com/gtag/js?id=G-HEX1D46026"></script>
+            <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}Add commentMore actions
+            gtag('js', new Date());
+
+            gtag('config', 'G-HEX1D46026');
+            </script>
+        @endauth
     </head>
     <body class="bg-slate-50 text-gray-800 font-sans">
 
