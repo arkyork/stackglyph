@@ -6,20 +6,17 @@
 
 <h1 class="text-2xl font-bold text-center text-blue-700 mb-6">{{$title}}ランキング</h1>
 
-<div class="flex justify-center gap-4 text-sm py-2">
-    <a href="{{ route('ranking.play_count') }}" class="text-gray-600 hover:text-blue-600 hover:underline transition">出題回数</a>
-    <a href="{{ route('ranking') }}" class="text-gray-600 hover:text-blue-600 hover:underline transition">正解率</a>
-    <a href="{{ route('ranking.correct_count') }}" class="text-gray-600 hover:text-blue-600 hover:underline transition">正解数</a>
-    <a href="{{ route('ranking.hint_count') }}" class="text-gray-600 hover:text-blue-600 hover:underline transition">ヒント使用</a>
-    <a href="{{ route('ranking.flashcard_count') }}" class="text-gray-600 hover:text-blue-600 hover:underline transition">フラッシュカード</a>
-  </div>
+@include("ranking.nav")
 
-<table class="w-full text-sm text-gray-700 bg-white border border-gray-200 rounded shadow-sm">
-  <thead class="bg-slate-100 text-left">
+
+<div class="bg-white border border-gray-200 rounded-xl shadow p-4 px-1">
+  <h2 class="text-xl text-center font-bold mb-4">ランキング</h2>
+  <table class="w-full text-sm text-gray-800">
+    <thead class="bg-slate-100 text-left border-b border-gray-300">
     <tr>
-      <th class="px-4 py-2">順位</th>
-      <th class="px-4 py-2">単語</th>
-      <th class="px-4 py-2">出題回数</th>
+      <th class="px-4 py-3 font-semibold text-gray-700">順位</th>
+      <th class="px-4 py-3 font-semibold text-gray-700">単語</th>
+      <th class="px-4 py-3 font-semibold text-gray-700">出題回数</th>
     </tr>
   </thead>
   <tbody>
@@ -47,5 +44,5 @@
   @endforeach
   </tbody>
 </table>
-
+    </div>
 @endsection

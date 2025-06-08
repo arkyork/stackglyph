@@ -18,7 +18,9 @@
   @else
     <ul class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-8">
       @foreach($themes as $theme)
+      
         <li class="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md hover:border-blue-300 transition p-5 space-y-2">
+          <a href="{{ route('quiz.show', $theme->id) }}">
           <div class="text-lg font-semibold text-gray-800">{{ $theme->name }}</div>
           <div class="text-sm text-gray-600 flex items-center gap-2">
             {{ $theme->words_count }} 単語
@@ -30,13 +32,12 @@
             @endauth
           </div>
           <div class="flex gap-4 mt-2 text-sm">
-            <a href="{{ route('quiz.show', $theme->id) }}"
-               class="text-blue-600 hover:underline">▶ プレイ</a>
             @auth
               <a href="{{ route('themes.edit', $theme->id) }}"
                  class="text-gray-600 hover:underline">✎ 編集</a>
             @endauth
           </div>
+          </a>
         </li>
       @endforeach
     </ul>

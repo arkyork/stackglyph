@@ -13,7 +13,10 @@
                 class="flex items-center gap-1 px-4 py-2 rounded-full text-gray-700 bg-gray-100 hover:bg-blue-50 hover:text-blue-600 shadow-sm hover:shadow-md transition duration-300 ease-in-out">
                 🏆 <span class="hidden sm:inline">ランキング</span>
             </a>
-
+            <a href="{{ route('search.index') }}"
+            class="flex items-center gap-1 px-4 py-2 rounded-full text-gray-700 bg-gray-100 hover:bg-blue-50 hover:text-blue-600 shadow-sm hover:shadow-md transition duration-300 ease-in-out">
+                🔍 <span class="hidden sm:inline">検索</span>
+            </a>
             @auth
             <a href="{{ route('themes.index') }}"
                 class="flex items-center gap-1 px-4 py-2 rounded-full text-gray-700 bg-gray-100 hover:bg-blue-50 hover:text-blue-600 shadow-sm hover:shadow-md transition duration-300 ease-in-out">

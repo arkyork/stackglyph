@@ -10,7 +10,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\WordController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\RankingController;
-
+use App\Http\Controllers\SearchController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -45,6 +45,9 @@ Route::get('/ranking/play_count', [RankingController::class, 'playCount'])->name
 Route::get('/ranking/correct_count', [RankingController::class, 'correctCount'])->name('ranking.correct_count');
 Route::get('/ranking/hint_count', [RankingController::class, 'hintCount'])->name('ranking.hint_count');
 Route::get('/ranking/flashcard_count', [RankingController::class, 'flashcardCount'])->name('ranking.flashcard_count');
+
+// 検索
+Route::get('/search', [SearchController::class, 'index'])->name('search.index');
 
 
 

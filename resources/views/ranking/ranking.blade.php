@@ -6,17 +6,13 @@
 
 
   <h1 class="text-2xl font-bold text-center mb-4">正解率ランキング</h1>
-  <div class="flex justify-center gap-4 text-sm py-2">
-    <a href="{{ route('ranking.play_count') }}" class="text-gray-600 hover:text-blue-600 hover:underline transition">出題回数</a>
-    <a href="{{ route('ranking') }}" class="text-gray-600 hover:text-blue-600 hover:underline transition">正解率</a>
-    <a href="{{ route('ranking.correct_count') }}" class="text-gray-600 hover:text-blue-600 hover:underline transition">正解数</a>
-    <a href="{{ route('ranking.hint_count') }}" class="text-gray-600 hover:text-blue-600 hover:underline transition">ヒント使用</a>
-    <a href="{{ route('ranking.flashcard_count') }}" class="text-gray-600 hover:text-blue-600 hover:underline transition">フラッシュカード</a>
-  </div>
+  @include("ranking.nav")
 
-  <div class="overflow-x-auto bg-white rounded-lg shadow">
-    <table class="min-w-full divide-y divide-gray-200 text-sm text-center">
-      <thead class="bg-slate-100">
+
+  <div class="bg-white border border-gray-200 rounded-xl shadow p-4 px-1">
+  <h2 class="text-xl text-center font-bold mb-4">ランキング</h2>
+  <table class="w-full text-sm text-gray-800">
+    <thead class="bg-slate-100 text-left border-b border-gray-300">
         <tr>
           <th class="px-4 py-3 font-semibold text-gray-700">単語</th>
           <th class="px-4 py-3 font-semibold text-gray-700">正解率</th>

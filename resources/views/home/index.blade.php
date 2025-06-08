@@ -23,11 +23,9 @@
         <li class="border-l-4 border-blue-400 pl-4">
           <div class="flex justify-between items-center">
             <div>
-              <strong class="text-gray-900">{{ $theme->name }}</strong>
+              <a href="{{ route('quiz.show', $theme->id) }}"><strong class="text-gray-900">{{ $theme->name }}</strong></a>
               <span class="text-sm text-gray-500">（<a href="{{route('categories.show',$theme->category->id)}}" class="hover:underline">{{ $theme->category->name ?? '未設定' }}</a>）</span>
             </div>
-            <a href="{{ route('quiz.show', $theme->id) }}"
-               class="text-blue-500 hover:underline text-sm">▶ クイズ</a>
           </div>
         </li>
       @endforeach

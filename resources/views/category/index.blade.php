@@ -11,7 +11,7 @@
       <a href="{{ route('categories.show', $category->id) }}"
          class="block bg-white rounded-xl shadow hover:shadow-lg transition p-5 border border-slate-200 hover:border-blue-400">
         <div class="text-lg font-semibold text-gray-800 mb-1">{{ $category->name }}</div>
-        <div class="text-sm text-gray-500">{{ $category->themes_count }} テーマ</div>
+        <div class="text-sm text-gray-500">{{ $category->themes_count }} クイズ</div>
       </a>
     @endforeach
   </div>

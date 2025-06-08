@@ -1,3 +1,5 @@
+let results = [];
+
 window.setupQuiz = function(words, csrfToken) {
     const answerInput = document.getElementById("answer");
     const resultDiv = document.getElementById("result");
@@ -13,7 +15,6 @@ window.setupQuiz = function(words, csrfToken) {
 
     let currentIndex = 0;
     let textElements = [];
-    let results = [];
     function renderProgress() {
         const percent = Math.round((currentIndex / words.length) * 100);
         progress.style.width = percent + "%";
@@ -109,6 +110,7 @@ window.setupQuiz = function(words, csrfToken) {
 
     nextBtn.addEventListener("click", () => {
         currentIndex++;
+        remove_el()
         if (currentIndex < words.length) {
             renderCurrentWord();
             answerInput.value = "";
@@ -241,3 +243,57 @@ function showFlashCard(text) {
       }
     }, 600); // 0.6秒ごとにカウントダウン
   }
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const buttons = document.querySelectorAll(".hint-area button");
+    const input = document.getElementById("answer");
+
+    buttons.forEach(button => {
+        button.addEventListener("click", () => {
+        const text = button.textContent;
+        // 現在の入力欄の末尾に追加する場合は以下のように
+        input.value = text;
+
+        // 入力欄をその文字列に置き換える場合は以下のように（上の行をコメントアウトしてこの行を使ってください）
+        // input.value = text;
+
+        // 入力欄にフォーカス
+        input.focus();
+        });
+    });
+});
+
+function remove_el(){
+    const buttons = document.querySelectorAll(".hint-area button");
+    results.forEach(element => {
+        buttons.forEach(button =>{
+            if(element["text"] == button.textContent ){
+                button.remove()
+            }
+        })
+
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const toggleBtn = document.getElementById('toggleHint');
+    const hintArea = document.getElementById('hintArea');
+    const icon = document.getElementById('toggleIcon');
+    let isOpen = false;
+
+    toggleBtn.addEventListener('click', () => {
+      isOpen = !isOpen;
+      hintArea.classList.toggle('hidden', !isOpen);
+      icon.classList.toggle('rotate-180', isOpen);
+      toggleBtn.querySelector('span')?.remove(); // spanがあれば削除
+      const label = document.createElement('span');
+      label.textContent = isOpen ? 'ヒントを隠す' : 'ヒントを表示';
+      toggleBtn.appendChild(label);
+    });
+
+    // 初期ラベル追加
+    const initialLabel = document.createElement('span');
+    initialLabel.textContent = 'ヒントを表示';
+    toggleBtn.appendChild(initialLabel);
+  });
