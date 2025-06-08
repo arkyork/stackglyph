@@ -14,7 +14,7 @@
 
     <?php
         $ranking_flag =str_contains(Request::route()->getName(),"ranking");
-        $quiz_flag =str_contains(Request::route()->getName(),"quiz.show");
+        $quiz_flag =str_contains(Request::route()->getName(),"quiz");
         $flag = $ranking_flag || $quiz_flag;
     ?>
 

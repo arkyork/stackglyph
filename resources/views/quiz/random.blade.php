@@ -1,6 +1,6 @@
 @extends('layouts.basic')
 
-@section('title', $theme->name. " - 日本人なら…読めるよね？重ね文字クイズ！")
+@section('title',  "ランダム重ね文字 - 日本人なら…読めるよね？重ね文字クイズ！")
 
 @section('head')
   @vite('resources/js/quiz.js')
@@ -11,7 +11,7 @@
         setupQuiz(words, csrfToken);
     });
   </script>
-  <meta name="description" content="『{{$theme->name}}』の重ね文字クイズ。日本人なら…読めるかも？">
+  <meta name="description" content="ランダム重ね文字クイズ。日本人なら…読めるかも？">
 
   @if(request()->query()) 
     <meta name="robots" content="noindex, follow">
@@ -21,10 +21,8 @@
 
 @section('content')
 <div class="max-w-3xl mx-auto px-4 py-8 space-y-6">
-  <a href="{{route('categories.show',$theme->category->id)}}" class="px-3 py-2 bg-slate-200 hover:bg-slate-500 hover:text-white rounded-md">
-    {{$theme->category->name}}
-  </a>
-  <h1 class="text-3xl font-bold text-center">「{{ $theme->name }}」の重ね文字</h1>
+
+  <h1 class="text-3xl font-bold text-center">ランダム重ね文字</h1>
 
   <!-- プログレスバー -->
   <div class="w-full h-6 bg-gray-300 rounded overflow-hidden">
@@ -41,8 +39,8 @@
       <button id="remove-btn" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition">一文字消す</button>
       <button id="hint-btn" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">フラッシュカード</button>
       <button id="settings-btn" class="bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300 transition flex items-center gap-1">
-          ⚙ <span class="hidden sm:inline">設定</span>
-      </button>
+            ⚙ <span class="hidden sm:inline">設定</span>
+        </button>
     </div>
 
     <div class="flex justify-center gap-2 items-center mb-8">
@@ -56,6 +54,10 @@
       <button id="next-btn" class="hidden mt-4 bg-gray-700 text-white px-5 py-2 rounded hover:bg-gray-800 transition">次の問題へ</button>
     </div>
 
+
+
+
+    
 <!-- トグルボタン -->
 <div class="text-center my-6">
   <button id="toggleHint"
@@ -67,16 +69,18 @@
     </svg>
     
   </button>
+  
 </div>
 
 <!-- トグル対象エリア -->
 <div id="hintArea" class="hint-area bg-white rounded-2xl border p-6 max-w-3xl mx-auto hidden">
   <h2 class="text-2xl font-bold mb-6 text-slate-700 text-center">候補</h2>
   <div class="flex flex-wrap justify-center gap-4">
-    @foreach($theme->words as $w)
+    @foreach($words as $w)
       <button class="px-4 py-2 bg-gradient-to-r from-slate-200 to-slate-300 text-slate-800 hover:from-slate-500 hover:to-slate-600 hover:text-white transition-all duration-200 ease-in-out rounded-xl shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400">{{$w->text}}</button>
     @endforeach
   </div>
+
 </div>
 
 
@@ -131,8 +135,6 @@
 
     downloadImage.src = img.src;
   });
-
-
     </script>
   @endauth
 
@@ -143,7 +145,7 @@
   <div class="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 relative">
     <h2 class="text-xl font-bold mb-4 text-center text-gray-800">⚙ 出題数を設定</h2>
 
-    <form method="GET" action="{{ route('quiz.show',$theme->id) }}" class="flex flex-col items-center gap-4">
+    <form method="GET" action="{{ route('quiz.random') }}" class="flex flex-col items-center gap-4">
       <label for="count" class="text-gray-700 font-medium">出題数：</label>
       <select name="count" id="count" class="border rounded px-4 py-2 w-40 text-center">
         @foreach([5, 10, 20, 50, 100] as $c)
@@ -159,4 +161,5 @@
     </div>
   </div>
 </div>
+
 @endsection

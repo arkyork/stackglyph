@@ -12,9 +12,16 @@ use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\RankingController;
 use App\Http\Controllers\SearchController;
 
+use App\Http\Controllers\PostController;
+
+
+//　ホーム
+
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-//Route::get('/quiz', [QuizController::class, 'show'])->name('quiz.random');
+// クイズ
+
+Route::get('/quiz/random', [QuizController::class, 'randomShow'])->name('quiz.random');
 Route::get('/quiz/{theme}', [QuizController::class, 'show'])->name('quiz.show');
 Route::post('/api/word-statistics/update', [WordStatisticsController::class, 'update'])->name('api.word-statistics.update');
 
@@ -35,6 +42,8 @@ Route::get('/sitemap/words-{page}.xml', [SitemapController::class, 'wordSitemapP
 
 Route::get('/sitemap/quiz.xml', [SitemapController::class, 'quizSitemap'])->name('sitemap.quiz');
 
+// 固定
+Route::get('/howto', [PostController::class,'howto'])->name('howto');
 
 // ランキング
 

@@ -9,19 +9,52 @@ use App\Models\Category;
 
 class QuizController extends Controller
 {
-    public function randomShow()
+    public function randomShow(Request $request)
     {
-        $word = Word::inRandomOrder()->first();
-
-        return view('quiz.show', [
-            'word' => $word,
+        $input = (int) $request->input('count', 100);
+        $count = null;
+    
+        switch ($input) {
+            case 5:
+            case 10:
+            case 20:
+            case 50:
+            case 100:
+                $count = $input;
+                break;
+            default:
+                abort(404, '指定された出題数は無効です');
+        }
+    
+        $words = Word::inRandomOrder()->limit($count)->get();
+        $categories = Category::all();
+    
+        return view('quiz.random', [
+            'words' => $words,
+            'categories' => $categories,
         ]);
     }
-    public function show(Theme $theme)
+    
+    public function show(Request $request,Theme $theme)
     {
+        $input = (int) $request->input('count', 10);
+        $count = null;
+    
+        switch ($input) {
+            case 5:
+            case 10:
+            case 20:
+            case 50:
+            case 100:
+                $count = 100;
+                break;
+            default:
+                abort(404, '指定された出題数は無効です');
+        }
+
         $categories = Category::all();
 
-        $words = $theme->words()->inRandomOrder()->with('wordStatistics')->limit(10)->get();
+        $words = $theme->words()->inRandomOrder()->with('wordStatistics')->limit($count)->get();
     
         if ($words->isEmpty()) {
             abort(404);

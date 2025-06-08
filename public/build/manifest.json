@@ -1,6 +1,6 @@
 {
   "resources/css/app.css": {
-    "file": "assets/app-CnLfgZcz.css",
+    "file": "assets/app-CHxvpiOm.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
@@ -11,7 +11,7 @@
     "isEntry": true
   },
   "resources/js/quiz.js": {
-    "file": "assets/quiz-BwHYsvu-.js",
+    "file": "assets/quiz-BvVEMnzE.js",
     "name": "quiz",
     "src": "resources/js/quiz.js",
     "isEntry": true

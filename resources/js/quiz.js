@@ -297,3 +297,29 @@ document.addEventListener('DOMContentLoaded', () => {
     initialLabel.textContent = 'ヒントを表示';
     toggleBtn.appendChild(initialLabel);
   });
+
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const images = document.querySelectorAll("img");
+    images.forEach(function (img) {
+      img.addEventListener("contextmenu", function (e) {
+        e.preventDefault();
+      });
+    });
+  });
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const settingsBtn = document.getElementById("settings-btn");
+    const settingsModal = document.getElementById("settings-modal-bg");
+    const settingsClose = document.getElementById("settings-close-btn");
+  
+    settingsBtn.addEventListener("click", () => {
+      settingsModal.classList.remove("hidden");
+      settingsModal.classList.add("flex");
+    });
+  
+    settingsClose.addEventListener("click", () => {
+      settingsModal.classList.add("hidden");
+      settingsModal.classList.remove("flex");
+    });
+  });
