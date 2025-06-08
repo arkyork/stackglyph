@@ -38,12 +38,19 @@
     <div id="mysvg-container" class="mb-4 flex justify-center"></div>
 
     <div class="flex justify-center gap-4">
-      <button id="remove-btn" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition">一文字消す</button>
-      <button id="hint-btn" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">フラッシュカード</button>
+      <button id="remove-btn" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition flex items-center gap-1">
+        🗑 <span class="hidden sm:inline">一文字消す</span>
+      </button>
+
+      <button id="hint-btn" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition flex items-center gap-1">
+        💡 <span class="hidden sm:inline">フラッシュカード</span>
+      </button>
+
       <button id="settings-btn" class="bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300 transition flex items-center gap-1">
-          ⚙ <span class="hidden sm:inline">設定</span>
+        ⚙ <span class="hidden sm:inline">設定</span>
       </button>
     </div>
+
 
     <div class="flex justify-center gap-2 items-center mb-8">
       <input id="answer" type="text" class="border rounded px-3 py-2 w-1/2" placeholder="答えを入力">
