@@ -18,18 +18,23 @@
 
   <section class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
     <h2 class="text-2xl font-bold mb-4 border-b border-blue-400 pb-2">新着</h2>
-    <ul class="space-y-3">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
       @foreach($publicThemes as $theme)
-        <li class="border-l-4 border-blue-400 pl-4">
-          <div class="flex justify-between items-center">
-            <div>
-              <a href="{{ route('quiz.show', $theme->id) }}"><strong class="text-gray-900">{{ $theme->name }}</strong></a>
-              <span class="text-sm text-gray-500">（<a href="{{route('categories.show',$theme->category->id)}}" class="hover:underline">{{ $theme->category->name ?? '未設定' }}</a>）</span>
-            </div>
-          </div>
-        </li>
+        <div class="border border-blue-200 bg-gray-50 rounded-lg p-4 shadow-sm hover:shadow-md transition">
+          <a href="{{ route('quiz.show', $theme->id) }}" class="block text-lg font-semibold text-gray-900 hover:text-blue-600">
+            {{ $theme->name }}
+          </a>
+          <p class="text-sm text-gray-600 mt-1">
+            カテゴリ：
+            <a href="{{ route('categories.show', $theme->category->id) }}"
+              class="text-blue-500 hover:underline">
+              {{ $theme->category->name ?? '未設定' }}
+            </a>
+          </p>
+        </div>
       @endforeach
-    </ul>
+    </div>
   </section>
+
 
 @endsection
