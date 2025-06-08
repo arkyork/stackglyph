@@ -46,7 +46,7 @@ class QuizController extends Controller
             case 20:
             case 50:
             case 100:
-                $count = 100;
+                $count = $input;
                 break;
             default:
                 abort(404, '指定された出題数は無効です');
