@@ -24,7 +24,7 @@
   <a href="{{route('categories.show',$theme->category->id)}}" class="px-3 py-2 bg-slate-200 hover:bg-slate-500 hover:text-white rounded-md">
     {{$theme->category->name}}
   </a>
-  <h1 class="text-3xl font-bold text-center">「{{ $theme->name }}」の重ね文字</h1>
+  <h1 class="text-3xl font-bold text-center">「{{ $theme->name }}」の重ね文字クイズ</h1>
 
   <!-- プログレスバー -->
   <div class="w-full h-6 bg-gray-300 rounded overflow-hidden">

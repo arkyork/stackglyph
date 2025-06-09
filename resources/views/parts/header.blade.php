@@ -1,7 +1,7 @@
 <header class="bg-white border-b border-gray-200 shadow-sm">
     <div class="max-w-6xl mx-auto px-4 py-3">
         <!-- サイトタイトル（サブ的） -->
-        <div class="text-center text-lg text-gray-800 tracking-wide font-semibold">
+        <div class="text-center text-2xl text-gray-800 tracking-wide font-semibold">
             <a href="/" class="hover:text-blue-500 transition">重ね文字あてゲーム</a>
         </div>
 
