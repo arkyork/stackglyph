@@ -19,6 +19,10 @@ use App\Http\Controllers\PostController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
+Route::get('/policy', [PostController::class, 'policy'])->name('policy');
+
+Route::get('/howto', [PostController::class,'howto'])->name('howto');
+
 // クイズ
 
 Route::get('/quiz/random', [QuizController::class, 'randomShow'])->name('quiz.random');
@@ -42,8 +46,6 @@ Route::get('/sitemap/words-{page}.xml', [SitemapController::class, 'wordSitemapP
 
 Route::get('/sitemap/quiz.xml', [SitemapController::class, 'quizSitemap'])->name('sitemap.quiz');
 
-// 固定
-Route::get('/howto', [PostController::class,'howto'])->name('howto');
 
 // ランキング
 

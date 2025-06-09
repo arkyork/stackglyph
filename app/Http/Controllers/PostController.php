@@ -12,6 +12,11 @@ class PostController extends Controller
     //
     public function howto() {
         $categories = Category::all();
-        return view('howto',compact('categories'));
+        return view('single.howto',compact('categories'));
     }
+    public function policy() {
+        $categories = Category::all();
+        return view('single.policy',compact('categories'));
+    }
+    
 }
