@@ -191,6 +191,7 @@ window.setupQuiz = function(words, csrfToken) {
     renderCurrentWord();
 };
 
+// フラッシュカード
 function showFlashCard(text) {
     const modalBg = document.getElementById("modal-bg");
     const modal = document.getElementById("modal");
@@ -264,6 +265,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+
+// 要素の削除
 function remove_el(){
     const buttons = document.querySelectorAll(".hint-area button");
     results.forEach(element => {
@@ -275,6 +278,8 @@ function remove_el(){
 
     });
 }
+
+
 
 document.addEventListener('DOMContentLoaded', () => {
     const toggleBtn = document.getElementById('toggleHint');
