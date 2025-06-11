@@ -26,5 +26,4 @@
 
 ## 🔧 技術スタック
 
-- **フロントエンド**: Tailwind CSS, JavaScript
-- **バックエンド**: Laravel (PHP)
+<img src="https://skillicons.dev/icons?i=php,tailwindcss,laravel,html,css,js" />
